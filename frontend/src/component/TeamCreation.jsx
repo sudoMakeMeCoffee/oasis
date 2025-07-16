@@ -3,15 +3,59 @@
 import { Box, Typography, TextField, Button, Paper } from "@mui/material"
 import { Groups as GroupsIcon } from "@mui/icons-material"
 import { useState } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 export default function TeamCreation() {
   const [teamName, setTeamName] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState(null)
+  const navigate = useNavigate()
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log("Team Creation Form submitted (placeholder function).")
+    
+    if (!teamName) {
+      setMessage({ type: "error", text: "Team name is required" })
+      return
+    }
+    
+    setIsSubmitting(true)
+    setMessage(null)
+    
+    try {
+      const token = localStorage.getItem('authToken')
+      
+      if (!token) {
+        setMessage({ type: "error", text: "You need to be logged in to create a team" })
+        setTimeout(() => {
+          navigate('/login')
+        }, 2000)
+        return
+      }
+      
+      const response = await axios.post('http://localhost:8080/api/v1/team', 
+        { name: teamName },
+        { 
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true 
+        }
+      )
+      
+      setMessage({ type: "success", text: "Team created successfully! Redirecting..." })
+      
+      setTimeout(() => {
+        navigate('/challenges')
+      }, 1500)
+    } catch (error) {
+      console.error('Team creation error:', error)
+      setMessage({ 
+        type: "error", 
+        text: error.response?.data?.message || "Failed to create team. Please try again." 
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (

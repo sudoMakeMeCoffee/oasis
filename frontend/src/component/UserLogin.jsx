@@ -3,17 +3,52 @@
 import { Box, Typography, TextField, Button, Link, Paper } from "@mui/material"
 import { Person as PersonIcon } from "@mui/icons-material"
 import { useState } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 export default function UserLogin() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState(null)
+  const navigate = useNavigate()
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log("Login Form submitted (placeholder function).")
-    //js
+    
+    if (!email || !password) {
+      setMessage({ type: "error", text: "Email and password are required" })
+      return
+    }
+    
+    setIsSubmitting(true)
+    setMessage(null)
+    
+    try {
+      const response = await axios.post('http://localhost:8080/api/v1/auth/signin', {
+        email,
+        password
+      }, {
+        withCredentials: true
+      })
+      
+      localStorage.setItem('authToken', response.data.token)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
+      
+      setMessage({ type: "success", text: "Login successful! Redirecting..." })
+      
+      setTimeout(() => {
+        navigate('/challenges')
+      }, 1500)
+    } catch (error) {
+      console.error('Login error:', error)
+      setMessage({ 
+        type: "error", 
+        text: error.response?.data?.message || "Login failed. Please check your credentials." 
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (

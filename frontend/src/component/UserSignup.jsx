@@ -3,19 +3,56 @@
 import { Box, Typography, TextField, Button, Link, Paper } from "@mui/material"
 import { PersonAddAlt1 as PersonAddAlt1Icon } from "@mui/icons-material"
 import { useState } from "react" 
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
-export default function AdminSignUp() {
+export default function UserSignup() { 
   const [email, setEmail] = useState("")
   const [username, setUsername] = useState("") 
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState(null)
+  const navigate = useNavigate()
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log("Sign Up Form submitted (placeholder function).")
-   //js 
+    
+    if (!email || !username || !password || !confirmPassword) {
+      setMessage({ type: "error", text: "All fields are required" })
+      return
+    }
+    
+    if (password !== confirmPassword) {
+      setMessage({ type: "error", text: "Passwords do not match" })
+      return
+    }
+    
+    setIsSubmitting(true)
+    setMessage(null)
+    
+    try {
+      const response = await axios.post('http://localhost:8080/api/v1/auth/signin', {
+        email,
+        password
+      }, {
+        withCredentials: true 
+      })
+      
+      setMessage({ type: "success", text: "Registration successful! Redirecting to login..." })
+      
+      setTimeout(() => {
+        navigate('/login')
+      }, 2000)
+    } catch (error) {
+      console.error('Signup error:', error)
+      setMessage({ 
+        type: "error", 
+        text: error.response?.data?.message || "Registration failed. Please try again." 
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
