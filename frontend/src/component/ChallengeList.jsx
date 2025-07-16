@@ -24,33 +24,35 @@ export default function ChallengeList() {
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
-        const data = [
-          {
-            id: 1,
-            title: "String Reversal Challenge",
-            description: "Create a function that reverses any string provided as input. Your solution should handle edge cases such as empty strings and special characters."
-          },
-          {
-            id: 2,
-            title: "Binary Tree Traversal",
-            description: "Implement three different methods to traverse a binary tree: in-order, pre-order, and post-order. Analyze the time and space complexity of each approach."
-          },
-          {
-            id: 3,
-            title: "Authentication System",
-            description: "Design and implement a secure authentication system with user registration, login, and password reset functionality. Ensure proper password hashing and security measures."
+        const response = await fetch('http://localhost:8080/api/v1/challenge', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
           }
-        ]
+        });
         
-        setChallenges(data)
-        setLoading(false)
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success && result.data) {
+          setChallenges(result.data);
+        } else {
+          throw new Error(result.message || 'Failed to fetch challenges');
+        }
+        
+        setLoading(false);
       } catch (err) {
-        setError("Failed to load challenges. Please try again later.")
-        setLoading(false)
+        console.error('Error fetching challenges:', err);
+        setError("Failed to load challenges. Please try again later.");
+        setLoading(false);
       }
-    }
+    };
 
-    fetchChallenges()
+    fetchChallenges();
   }, [])
 
   const handleSolve = (challengeId) => {
