@@ -13,8 +13,10 @@ import {
   Container
 } from "@mui/material"
 import { LightbulbOutlined as LightbulbIcon } from "@mui/icons-material"
+import { useNavigate } from 'react-router-dom'
 
 export default function ChallengeList() {
+  const navigate = useNavigate()
   const [challenges, setChallenges] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -52,7 +54,7 @@ export default function ChallengeList() {
   }, [])
 
   const handleSolve = (challengeId) => {
-    console.log(`Navigate to challenge solution page for ID: ${challengeId}`)
+    navigate(`/challenge/${challengeId}`)
   }
 
   const truncateDescription = (text, maxLength = 120) => {
