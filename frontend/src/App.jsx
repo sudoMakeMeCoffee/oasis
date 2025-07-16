@@ -6,6 +6,7 @@ import UserLogin from './component/UserLogin'
 import TeamCreation from './component/TeamCreation'
 import ChallengeList from './component/ChallengeList'
 import Challenge from './component/Challenge'
+import LeaderBoard from './component/LeaderBoard'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/create-team" element={<TeamCreation />} />
           <Route path="/challenges" element={<ChallengeList />} />
           <Route path="/challenge/:id" element={<Challenge />} />
+          <Route path="/leaderboard" element={<LeaderBoard />} />
           <Route path="/" element={<ChallengeList />} />
         </Routes>
       </BrowserRouter>
