@@ -32,8 +32,9 @@ export default function UserSignup() {
     setMessage(null)
     
     try {
-      const response = await axios.post('http://localhost:8080/api/v1/auth/signin', {
+      const response = await axios.post('http://localhost:8080/api/v1/auth/signup', {
         email,
+        username,
         password
       }, {
         withCredentials: true 
