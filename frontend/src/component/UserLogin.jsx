@@ -1,10 +1,10 @@
 "use client"
 
 import { Box, Typography, TextField, Button, Link, Paper } from "@mui/material"
-import { LaptopMac as LaptopMacIcon } from "@mui/icons-material"
+import { Person as PersonIcon } from "@mui/icons-material"
 import { useState } from "react" 
 
-export default function AdminLogin() {
+export default function UserLogin() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -12,9 +12,8 @@ export default function AdminLogin() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log("Form submitted (placeholder function).")
-    // js logic
-   
+    console.log("Login Form submitted (placeholder function).")
+    //js
   }
 
   return (
@@ -33,7 +32,7 @@ export default function AdminLogin() {
         className="w-full max-w-md mx-auto p-6 md:p-8 rounded-xl relative z-20"
         sx={{
           bgcolor: "#747272ff", 
-          border: "1px solid rgba(255, 255, 255, 0.05)",
+          border: "1px solid rgba(255, 255, 255, 0.05)", 
           boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.4)", 
           transition: "all 0.3s ease-in-out",
           "&:hover": {
@@ -42,12 +41,12 @@ export default function AdminLogin() {
         }}
       >
         <Box className="text-center space-y-4 mb-6">
-          <LaptopMacIcon
+          <PersonIcon
             sx={{
               mx: "auto",
               height: 64,
               width: 64,
-              color: "#E91E63",
+              color: "#E91E63", 
               textAlign: "center", 
               display: "block", 
             }}
@@ -56,12 +55,12 @@ export default function AdminLogin() {
             variant="h4"
             component="h1"
             className="font-bold tracking-wider"
-            sx={{ color: "#E91E63", textShadow: "none",textAlign:"center" }} // Dark Pink, no text shadow
+            sx={{ color: "#E91E63", textShadow: "none", textAlign: "center" }}
           >
-            Admin Access Terminal
+            User Login
           </Typography>
-          <Typography variant="body1" className="text-lg" sx={{ color: "#A0A0A0",textAlign: "center" }}>
-            Enter your credentials to unlock ultimate control.
+          <Typography variant="body1" className="text-lg" sx={{ color: "#A0A0A0", textAlign: "center" }}>
+            Enter your credentials to access your account.
           </Typography>
         </Box>
 
@@ -90,8 +89,8 @@ export default function AdminLogin() {
                   boxShadow: "0 0 5px rgba(233, 30, 99, 0.3)", 
                 },
                 "& input": {
-                  color: "#F0F0F0",
-                  textAlign: "left", 
+                  color: "#F0F0F0", 
+                  textAlign: "left",
                 },
                 "& .MuiInputBase-input::placeholder": {
                   color: "#A0A0A0", 
@@ -111,19 +110,18 @@ export default function AdminLogin() {
             placeholder="••••••••"
             variant="outlined"
             InputLabelProps={{
-              sx: { color: "#A0A0A0" }, 
+              sx: { color: "#A0A0A0" },
             }}
             sx={{
               "& .MuiOutlinedInput-root": {
-                bgcolor: "#2C2C2C", 
+                bgcolor: "#2C2C2C",
                 "& fieldset": {
-                  borderColor: "rgba(255, 255, 255, 0.1)", 
                 },
                 "&:hover fieldset": {
-                  borderColor: "rgba(255, 255, 255, 0.2)",
+                  borderColor: "rgba(255, 255, 255, 0.2)", 
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#E91E63",
+                  borderColor: "#E91E63", 
                   boxShadow: "0 0 5px rgba(233, 30, 99, 0.3)", 
                 },
                 "& input": {
@@ -133,7 +131,7 @@ export default function AdminLogin() {
                 "& .MuiInputBase-input::placeholder": {
                   color: "#A0A0A0", 
                   opacity: 1,
-                  textAlign: "left",
+                  textAlign: "left", 
                 },
               },
             }}
@@ -164,11 +162,11 @@ export default function AdminLogin() {
               },
               "&:focus": {
                 outline: "none",
-                boxShadow: "0 0 0 2px #E91E63, 0 0 0 4px rgba(0, 0, 0, 0.5)", 
+                boxShadow: "0 0 0 2px #E91E63, 0 0 0 4px rgba(0, 0, 0, 0.5)",
               },
             }}
           >
-            Login to OASIS
+            Log In
           </Button>
           
           {message && (
@@ -185,6 +183,16 @@ export default function AdminLogin() {
               {message.text}
             </Typography>
           )}
+
+          <Typography variant="body1" className="text-center mt-4" sx={{ color: "#e9e5e5ff", fontWeight: "bold", textAlign: "center" }}>
+            Don't have an account?{" "}
+            <Link
+              href="/signup"
+              sx={{ color: "#E91E63", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}
+            >
+              Register here
+            </Link>
+          </Typography>
         </Box>
       </Paper>
     </Box>
