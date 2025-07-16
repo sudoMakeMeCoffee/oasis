@@ -60,8 +60,9 @@ export default function ChallengeList() {
   }
 
   const truncateDescription = (text, maxLength = 120) => {
-    if (text.length <= maxLength) return text
-    return text.slice(0, maxLength) + '...'
+    if (!text) return "No description available";
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + '...';
   }
 
   return (
@@ -167,7 +168,7 @@ export default function ChallengeList() {
                       {challenge.title}
                     </Typography>
                     <Typography sx={{ color: "#A0A0A0" }}>
-                      {truncateDescription(challenge.description)}
+                      {truncateDescription(challenge.description || '')}
                     </Typography>
                   </CardContent>
                   <CardActions sx={{ p: 3, pt: 0, display: 'flex', justifyContent: 'flex-end' }}>
