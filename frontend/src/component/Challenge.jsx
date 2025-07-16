@@ -26,7 +26,6 @@ export default function Challenge() {
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
   
-  // Mocked challenge data - in a real app, this would come from API/props
   const challenge = {
     id: 1,
     title: "String Reversal Challenge",
@@ -55,10 +54,8 @@ export default function Challenge() {
     setResult(null)
     
     try {
-      // Simulate API call with a timeout
       await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      // Mock response for demo purposes
+
       if (code.includes("reverseString") && code.includes("return")) {
         setResult({
           status: "success",
@@ -112,9 +109,16 @@ export default function Challenge() {
           </Typography>
         </Box>
 
-        <Grid container spacing={3}>
+        {/* Modified Grid container */}
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3 }}>
           {/* Left side: Challenge details */}
-          <Grid item xs={12} md={5}>
+          <Box
+            sx={{
+              width: { xs: '100%', md: '40%' },
+              flexShrink: 0,
+              alignSelf: 'flex-start'
+            }}
+          >
             <Paper
               elevation={0}
               sx={{
@@ -122,17 +126,18 @@ export default function Challenge() {
                 border: "1px solid rgba(255, 255, 255, 0.05)",
                 boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.4)",
                 borderRadius: "0.75rem",
-                height: "100%",
                 p: 3,
                 display: "flex",
-                flexDirection: "column"
+                flexDirection: "column",
+                overflow: 'auto',
+                height: { xs: 'auto', md: 'calc(100vh - 200px)' },
               }}
             >
               <Typography 
                 variant="h5" 
                 component="h2"
                 sx={{ 
-                  color: "#F0F0F0", 
+                  color: "#f9f2f2ff", 
                   fontWeight: "bold",
                   mb: 2
                 }}
@@ -140,7 +145,7 @@ export default function Challenge() {
                 {challenge.title}
               </Typography>
               
-              <Typography sx={{ color: "#A0A0A0", mb: 3 }}>
+              <Typography sx={{ color: "#f7f2f2ff", mb: 3 }}>
                 {challenge.description}
               </Typography>
               
@@ -209,7 +214,7 @@ export default function Challenge() {
                 <ul style={{ paddingLeft: "1.5rem" }}>
                   {challenge.constraints.map((constraint, index) => (
                     <li key={index}>
-                      <Typography sx={{ color: "#A0A0A0", mb: 1 }}>
+                      <Typography sx={{ color: "#fefbfbff", mb: 1,fontWeight: "bold" }}>
                         {constraint}
                       </Typography>
                     </li>
@@ -217,10 +222,15 @@ export default function Challenge() {
                 </ul>
               </Box>
             </Paper>
-          </Grid>
+          </Box>
           
           {/* Right side: Code editor and submission */}
-          <Grid item xs={12} md={7}>
+          <Box
+            sx={{
+              width: { xs: '100%', md: '60%' },
+              flexGrow: 1,
+            }}
+          >
             <Paper
               elevation={0}
               sx={{
@@ -228,10 +238,11 @@ export default function Challenge() {
                 border: "1px solid rgba(255, 255, 255, 0.05)",
                 boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.4)",
                 borderRadius: "0.75rem",
-                height: "100%",
                 p: 3,
                 display: "flex",
-                flexDirection: "column"
+                flexDirection: "column",
+                overflow: 'auto',
+                height: { xs: 'auto', md: 'calc(100vh - 200px)' },
               }}
             >
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
@@ -268,7 +279,7 @@ export default function Challenge() {
                   }}
                   size="small"
                 >
-                  <InputLabel id="language-select-label" sx={{ color: "#A0A0A0" }}>Language</InputLabel>
+                  <InputLabel id="language-select-label" sx={{ color: "#ebe6e6ff" }}>Language</InputLabel>
                   <Select
                     labelId="language-select-label"
                     id="language-select"
@@ -287,7 +298,7 @@ export default function Challenge() {
               <TextField
                 fullWidth
                 multiline
-                rows={15}
+                rows={15} 
                 variant="outlined"
                 placeholder={
                   language === "javascript" 
@@ -421,8 +432,8 @@ export default function Challenge() {
                 </Box>
               )}
             </Paper>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Container>
     </Box>
   )
