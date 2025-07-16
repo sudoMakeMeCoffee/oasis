@@ -1,21 +1,22 @@
 package com.oasis.controller;
 
 
-import com.oasis.dto.request.ChangePasswordRequestDto;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.oasis.dto.request.SignInRequestDto;
 import com.oasis.dto.request.SignUpRequestDto;
 import com.oasis.dto.response.SignInResult;
 import com.oasis.dto.response.UserResponseDto;
 import com.oasis.dto.response.common.ApiResponse;
-import com.oasis.exception.UnauthorizedException;
 import com.oasis.service.AuthService;
-import jakarta.servlet.http.HttpServletRequest;
+
 import jakarta.validation.Valid;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -41,6 +42,20 @@ public class AuthController {
     }
 
 
+    @PostMapping("/signin")
+    public ResponseEntity<ApiResponse<Object>> signin(@Valid @RequestBody SignInRequestDto request){
+        SignInResult signInResult = authService.signin(request);
+
+        ApiResponse<Object> response = new ApiResponse<>(
+                true,
+                "Login successful.",
+                signInResult.getUserResponseDto()
+        );
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, signInResult.getCookie().toString())
+                .body(response);
+    }
 
 
 }
