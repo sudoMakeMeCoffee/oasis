@@ -5,6 +5,7 @@ import com.oasis.dto.request.CreateBuildathonChallengeRequestDto;
 import com.oasis.dto.request.CreateChallengeRequestDto;
 import com.oasis.dto.response.AlgoChallengeResponseDto;
 import com.oasis.dto.response.BuildathonChallengeResponseDto;
+import com.oasis.dto.response.ChallengeResponseDto;
 import com.oasis.dto.response.TeamResponseDto;
 import com.oasis.dto.response.common.ApiResponse;
 import com.oasis.entity.AlgoChallenge;
@@ -17,10 +18,10 @@ import com.oasis.service.ChallengeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/challenge")
@@ -34,6 +35,26 @@ public class ChallengeController {
         this.challengeService = challengeService;
         this.algoChallengeService = algoChallengeService;
         this.buildathonChallengeService = buildathonChallengeService;
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse> getAllChallenges() {
+        List<Challenge> challenges = challengeService.getAllChallenges();
+
+        ApiResponse<List> response = new ApiResponse<>(
+                true,
+                "Challenge created Successfully.",
+                challenges.stream().map(this::mapToDto).collect(Collectors.toList())
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    private ChallengeResponseDto mapToDto(Challenge challenge) {
+        return ChallengeResponseDto.builder()
+                .id(challenge.getId())
+                .title(challenge.getTitle())
+                .build();
     }
 
     @PostMapping

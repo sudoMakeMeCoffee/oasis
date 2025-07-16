@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @Service
 public class ChallengeService {
 
@@ -22,6 +24,10 @@ public class ChallengeService {
                 .build();
 
         return challengeRepository.save(challenge);
+    }
+
+    public List<Challenge> getAllChallenges() {
+        return challengeRepository.findAll();
     }
 
 
