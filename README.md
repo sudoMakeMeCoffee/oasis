@@ -17,7 +17,9 @@ npm run dev
 ```
 
 create application.properties file
-my-spring-boot-app/
+
+```
+backend/
 ├── src/
 │   ├── main/
 │   │   ├── java/
@@ -27,7 +29,7 @@ my-spring-boot-app/
 ├── pom.xml or build.gradle
 └── README.md
 
-
+```
 ```
 spring.application.name=Oasis
 spring.datasource.url=jdbc:mysql://localhost:3306/oasis
