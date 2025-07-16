@@ -39,6 +39,7 @@ export default function AdminLogin() {
           "&:hover": {
             boxShadow: "0px 12px 25px rgba(0, 0, 0, 0.6)", 
           },
+          maxWidth: "550px",
         }}
       >
         <Box className="text-center space-y-4 mb-6">
@@ -60,7 +61,7 @@ export default function AdminLogin() {
           >
             Admin Access Terminal
           </Typography>
-          <Typography variant="body1" className="text-lg" sx={{ color: "#A0A0A0",textAlign: "center" }}>
+          <Typography variant="body1" className="text-lg" sx={{ color: "#e1ddddff",textAlign: "center", fontSize: "1rem" , paddingBottom: "0.5rem"}}>
             Enter your credentials to unlock ultimate control.
           </Typography>
         </Box>
@@ -166,6 +167,8 @@ export default function AdminLogin() {
                 outline: "none",
                 boxShadow: "0 0 0 2px #E91E63, 0 0 0 4px rgba(0, 0, 0, 0.5)", 
               },
+              paddingTop: "0.5rem",
+              paddingBottom: "0.5rem",
             }}
           >
             Login to OASIS

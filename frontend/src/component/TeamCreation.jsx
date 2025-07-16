@@ -36,6 +36,7 @@ export default function TeamCreation() {
           "&:hover": {
             boxShadow: "0px 12px 25px rgba(0, 0, 0, 0.6)",
           },
+          maxWidth: "550px",
         }}
       >
         <Box className="text-center space-y-4 mb-6">
@@ -57,7 +58,7 @@ export default function TeamCreation() {
           >
             Create Your Team
           </Typography>
-          <Typography variant="body1" className="text-lg" sx={{ color: "#A0A0A0", textAlign: "center" }}>
+          <Typography variant="body1" className="text-lg" sx={{ color: "#e1ddddff", textAlign: "center", paddingBottom: "0.5rem" }}>
             Enter a name for your new team to begin your journey.
           </Typography>
         </Box>

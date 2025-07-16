@@ -31,7 +31,7 @@ export default function AdminSignUp() {
     >
       <Paper
         elevation={0} 
-        className="w-full max-w-md mx-auto p-6 md:p-8 rounded-xl relative z-20"
+        className="w-full max-w-sm mx-auto p-5 md:p-6 rounded-xl relative z-20"
         sx={{
           bgcolor: "#747272ff",
           border: "1px solid rgba(255, 255, 255, 0.05)", 
@@ -40,14 +40,15 @@ export default function AdminSignUp() {
           "&:hover": {
             boxShadow: "0px 12px 25px rgba(0, 0, 0, 0.6)", 
           },
+          maxWidth: "550px",
         }}
       >
-        <Box className="text-center space-y-4 mb-6">
+        <Box className="text-center space-y-3 mb-5">
           <PersonAddAlt1Icon
             sx={{
               mx: "auto",
-              height: 64,
-              width: 64,
+              height: 56,
+              width: 56,
               color: "#E91E63",
               textAlign: "center", 
               display: "block", 
@@ -61,11 +62,11 @@ export default function AdminSignUp() {
           >
             Awaken the Builder
           </Typography>
-          <Typography variant="h6" className="text-lg" sx={{ color: "#e8e6e6ff", textAlign: "center" }}>
+          <Typography variant="subtitle1" className="text-lg" sx={{ color: "#e1ddddff", textAlign: "center", fontSize: "0.9rem", paddingBottom: "0.5rem" }}>
             Register your credentials to gain ultimate control.
           </Typography>
         </Box>
-        <Box component="form" className="space-y-6" onSubmit={handleSubmit}>
+        <Box component="form" className="space-y-4" onSubmit={handleSubmit}>
           <TextField
             fullWidth
             id="email"
@@ -260,7 +261,7 @@ export default function AdminSignUp() {
               {message.text}
             </Typography>
           )}
-          <Typography variant="body1" className="text-center mt-4 " sx={{ color: "#e9e5e5ff" ,fontWeight: "bold", textAlign: "center" }}>
+          <Typography variant="body1" className="text-center mt-4 " sx={{ color: "#e9e5e5ff" ,fontWeight: "bold", textAlign: "center", paddingTop: "0.5rem" ,paddingBottom: "0.5rem"}}>
             Already have an account?{" "}
             <Link
               href="/login"

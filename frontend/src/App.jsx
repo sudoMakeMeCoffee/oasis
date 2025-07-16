@@ -11,10 +11,10 @@ function App() {
   return (
     <ThemeProvider theme={{ }}>
         {/* <AdminLogin /> */}
-        {/* <UserSignup /> */}  
+        {/* <UserSignup />   */}
         {/* <UserLogin /> */}
         {/* <TeamCreation /> */}
-        <ChallengeList />
+        {/* <ChallengeList /> */}
     </ThemeProvider>
   )
 }
