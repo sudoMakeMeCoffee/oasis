@@ -1,6 +1,9 @@
 package com.oasis.controller;
 
 
+import com.oasis.dto.request.VerifyEmailRequestDto;
+import com.oasis.exception.UnauthorizedException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
 
     private final AuthService authService;
@@ -25,9 +29,22 @@ public class AuthController {
         this.authService = authService;
     }
 
+    @PostMapping("/check-auth")
+    public ResponseEntity<ApiResponse<Object>> checkAuth(HttpServletRequest request) {
+        try {
+            UserResponseDto user = authService.checkAuth(request);
+
+            return ResponseEntity.ok(
+                    new ApiResponse<>(true, "Authorized", user));
+        } catch (UnauthorizedException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ApiResponse<>(false, ex.getMessage(), null));
+        }
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<UserResponseDto>> signup(@Valid @RequestBody SignUpRequestDto request){
-        UserResponseDto user = authService.addUser(request);
+        UserResponseDto user = authService.signup(request);
 
         ApiResponse<UserResponseDto> response = new ApiResponse<>(
                 true,
@@ -38,6 +55,19 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @PostMapping("/verify-email")
+    public ResponseEntity<ApiResponse<Object>> verifyEmail(@RequestBody VerifyEmailRequestDto requestDto){
+        boolean verified = authService.verifyEmail(requestDto.getEmail(), requestDto.getCode());
+
+        if(verified) return new ResponseEntity<>(
+                new ApiResponse<>(true, "Email Verified", null),
+                HttpStatus.OK
+        );
+        else  return new ResponseEntity<>(
+                new ApiResponse<>(false, "Your code is invalid.", null),
+                HttpStatus.BAD_REQUEST
+        );
+    }
 
     @PostMapping("/signin")
     public ResponseEntity<ApiResponse<Object>> signin(@Valid @RequestBody SignInRequestDto request){

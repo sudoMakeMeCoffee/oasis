@@ -14,6 +14,7 @@ public class UserResponseDto {
     private UUID id;
     private String username;
     private String email;
+    private boolean isVerified;
     private Role role;
 
     public static UserResponseDto fromEntity(User user){
@@ -21,6 +22,7 @@ public class UserResponseDto {
                 .id(user.getId())
                 .email(user.getEmail())
                 .username(user.getUsername())
+                .isVerified(user.isVerified())
                 .role(user.getRole())
                 .build();
     }

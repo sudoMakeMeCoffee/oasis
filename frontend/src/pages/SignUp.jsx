@@ -26,11 +26,11 @@ const SignUp = () => {
       }, {withCredentials: true});
       setIsLoading(false);
       toast.success(res.data.message)
-      navigate("/signin")
+      navigate(`/verify-email?q=${email}`)
     } catch (error) {
       setIsLoading(false);
       console.log(error)
-      toast.error(error.response?.data?.message)
+      toast.error(error.response?.data?.message ?  error.response.data.message : "Somethging went wrong")
     }
   };
 
@@ -58,6 +58,7 @@ const SignUp = () => {
         <h1 className="text-3xl font-bold">
           Sign Up
         </h1>
+        <span className="text-xs text-red-500">{err}</span>
       </div>
 
       <form className="flex flex-col gap-4" onSubmit={(e) => handleSubmit(e)}>

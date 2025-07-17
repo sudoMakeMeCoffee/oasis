@@ -15,6 +15,7 @@ import Navbar from "./components/Navbar";
 import { Bounce, ToastContainer } from "react-toastify";
 import NotFound from "./pages/NotFound";
 import useAuthStore from "./store/AuthStore";
+import VerifyEmail from "./pages/VerfyEmail";
 
 function App() {
   const location = useLocation();
@@ -22,7 +23,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/auth/check-auth", {
+      .post("http://localhost:8080/api/v1/auth/check-auth",{}, {
         withCredentials: true,
       })
       .then((res) => {
@@ -36,7 +37,7 @@ function App() {
       });
   }, []);
 
-  const hideNavbarRoutes = ["/signin", "/signup"];
+  const hideNavbarRoutes = ["/signin", "/signup", "/verify-email"];
   const hideNavbar = hideNavbarRoutes.includes(location.pathname);
 
   return (
@@ -52,7 +53,13 @@ function App() {
           path="/signin"
           element={isAuthenticated ? <Navigate to={"/"} /> : <SignIn />}
         />
-       
+       <Route
+          path="/verify-email"
+          element={isAuthenticated ? <Navigate to={"/"} /> : <VerifyEmail />}
+        />
+
+
+
         <Route path="*" element={<NotFound />} />
       </Routes>
 
