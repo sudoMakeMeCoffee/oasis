@@ -40,4 +40,14 @@ public class ChallengeController {
                 new ApiResponse<>(true, "Challenges fetched successfully", dtoList)
         );
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ChallengeResponseDto>> getChallengeById(
+            @PathVariable UUID id) {
+        Challenge found = challengeService.getChallengeById(id);
+        ChallengeResponseDto response = ChallengeResponseDto.fromEntity(found);
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Challenge fetched successfully", response)
+        );
+    }
 }
