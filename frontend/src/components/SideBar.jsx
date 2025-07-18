@@ -7,6 +7,7 @@ import { FaUser } from "react-icons/fa6";
 import { BiUser, BiUserCircle } from "react-icons/bi";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { APIURL } from "../utils/conts";
 
 const SideBar = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const SideBar = () => {
   const signOut = async () => {
     try {
       await axios.post(
-        "http://localhost:8080/api/auth/logout",
+        `${APIURL}/auth/signout`,
         {},
         {
           withCredentials: true,
@@ -33,68 +34,26 @@ const SideBar = () => {
   };
 
   return (
-    <div
-      className={`fixed top-0  z-50  h-screen ${
-        showSideBar ? "right-0" : "rignt-[-1000px]"
-      } bg-white border-l-2 border-black flex flex-col gap-3 px-4 py-4 w-[400px] transition-all ease-in-out delay-150 duration-300`}
-    >
-      <div className="flex items-center justify-between mb-10 border-b py-2">
-        {isAuthenticated ? (
-          <div className="flex items-center gap-2">
-            <BiUserCircle className="text-5xl cursor-pointer" />
-            <div className="flex flex-col">
-              <span className="text-sm ">{user.email}</span>
-              <span className="text-sm">@{user.username}</span>
-            </div>
-          </div>
-        ) : (
-          <Link
-            className="text-md hover:font-semibold border border-black px-3 py-2 rounded-md"
-            to={"/signin"}
-          >
-            SignIn
-          </Link>
-        )}
-        <CgClose
-          className="text-3xl cursor-pointer"
-          onClick={() => setShowSideBar(false)}
-        />
-      </div>
-
-      <div>
-        <Link className="text-xl hover:font-semibold">All Events</Link>
-      </div>
-      <div>
-        <Link className="text-xl hover:font-semibold">Download Tickets</Link>
-      </div>
-      {isAuthenticated && user?.role === "USER" ? (
-        <div>
-          <Link className="text-xl hover:font-semibold" to={"/organization/create"}>
-            Become an Organizer
+    <div className="w-[250px] bg-white shadow-md absolute top-[60px] right-[50px] hidden md:block">
+      <div className="w-full p-3 flex flex-col gap-4">
+        <div className="bg-primary w-full p-3 text-center">
+          <Link className=" text-black font-light hover:font-bold">
+            @Sithija
           </Link>
         </div>
-      ) : isAuthenticated &&  user?.role === "ORGANIZER" && (
-        <div>
-          <Link className="text-xl hover:font-semibold" to={"/organization"}>Your Organization</Link>
+        <div className="w-full h-[1px] bg-black"></div>
+        <div className="flex flex-col gap-3 font-light">
+          <Link className="hover:font-semibold" to={"/profile"}>
+            Profile
+          </Link>
+          <hr />
+          <Link className="hover:font-semibold">Leaderboard</Link>
+          <hr />
+          <Link className="hover:font-semibold">Settings</Link>
+          <hr />
+          <Link className="hover:font-semibold">Logout</Link>
         </div>
-      )}
-
-      <hr />
-
-      <div>
-        <Link className="text-xl hover:font-semibold">Profile Settings</Link>
       </div>
-
-      {isAuthenticated && (
-        <div>
-          <button
-            className="text-sm hover:font-semibold px-3 py-2 bg-black rounded-lg text-white"
-            onClick={signOut}
-          >
-            SignOut
-          </button>
-        </div>
-      )}
     </div>
   );
 };

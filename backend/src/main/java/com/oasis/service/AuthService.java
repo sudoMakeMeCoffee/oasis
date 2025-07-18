@@ -44,6 +44,6 @@ public interface AuthService {
 
     public boolean checkEmailExists(String email);
 
-    public ResponseCookie logout();
+    public ResponseCookie signout();
 
 }

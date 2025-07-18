@@ -75,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         if(user.isVerified()) return true;
-        
+
         String code = codeGeneratorUtil.generateSixDigitCode();
         user.setCode(code);
         User updatedUser = userRepository.save(user);
@@ -165,7 +165,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseCookie logout() {
+    public ResponseCookie signout() {
         return ResponseCookie.from("jwt", "").httpOnly(true).secure(false).path("/").maxAge(0).sameSite("Lax").build();
     }
 

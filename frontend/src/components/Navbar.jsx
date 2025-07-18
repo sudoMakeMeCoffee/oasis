@@ -1,58 +1,66 @@
-import axios from "axios";
-import React, { Profiler, useState } from "react";
-import { FaBars, FaUser } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
+import { ReactComponent as Logo } from "../assets/images/logo-light.svg";
+import { BiUser } from "react-icons/bi";
+import { IoIosArrowDown } from "react-icons/io";
 import useAuthStore from "../store/AuthStore";
 import useSideBarStore from "../store/SideBarStore";
-import { CgClose, CgProfile } from "react-icons/cg";
 import SideBar from "./SideBar";
 
 const Navbar = () => {
   const { isAuthenticated, setIsAuthenticated, user } = useAuthStore();
   const { showSideBar, setShowSideBar } = useSideBarStore();
 
-  
+  const sidebarRef = useRef(null);
+  const triggerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        showSideBar &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target) &&
+        triggerRef.current &&
+        !triggerRef.current.contains(event.target)
+      ) {
+        setShowSideBar(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showSideBar, setShowSideBar]);
+
   return (
     <>
-      <nav className="main-wrapper w-full h-[70px]  flex justify-between items-center bg-white border-b-4 border-black">
-        <Link to={"/"} id="logo">
-          EDM
-        </Link>
-        <div className="flex items-center gap-6">
+      <nav className="w-full bg-black h-[60px]">
+        <div className="wrapper w-full max-w-8xl h-full flex items-center justify-between">
           <div>
-            <Link to={"/events"} className="text-md hover:font-semibold">
-              All Events
-            </Link>
+            <Logo className="w-[70px]" />
           </div>
 
           <div>
-            {isAuthenticated ? (
-              user.role === "USER" ? (
-                <Link className="text-md hover:font-semibold" to={"/organization/create"}>
-                  Become an Organizer
-                </Link>
-              ) : (
-                <Link className="text-md hover:font-semibold" to={"/organization"}>
-                  Your Organization
-                </Link>
-              )
-            ) : (
-              <Link className="text-md hover:font-semibold" to={"/signin"}>
-                SignIn
-              </Link>
-            )}
-          </div>
-
-          <div>
-            <FaBars
-              className="text-xl cursor-pointer"
+            <div
+              ref={triggerRef}
+              className="flex items-center gap-2 cursor-pointer relative"
               onClick={() => setShowSideBar(!showSideBar)}
-            />
+            >
+              <BiUser className="text-3xl p-1 text-white border border-white rounded-full" />
+              <IoIosArrowDown
+                className={`text-xl text-white transform transition-transform duration-300 ${
+                  showSideBar ? "rotate-180" : "rotate-0"
+                }`}
+              />
+            </div>
+            {showSideBar && (
+              <div ref={sidebarRef}>
+                <SideBar />
+              </div>
+            )}
           </div>
         </div>
       </nav>
-
-      {showSideBar && <SideBar />}
     </>
   );
 };

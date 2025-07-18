@@ -6,6 +6,7 @@ import com.oasis.exception.UnauthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -126,5 +127,16 @@ public class AuthController {
                 .body(response);
     }
 
+
+    @PostMapping("/signout")
+    public ResponseEntity<ApiResponse<Object>> signout() {
+        ResponseCookie cookie = authService.signout(); // should return an expired cookie
+        ApiResponse<Object> response = new ApiResponse<>(true, "Logout Successfully", null);
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString()) // ✅ correct header
+                .body(response);
+    }
 
 }
