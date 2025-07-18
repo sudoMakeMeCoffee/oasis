@@ -199,9 +199,6 @@ const SignUpForm = () => {
           value={confirmPassword}
           disabled={isLoading}
         />
-        {/* <span className="text-sm font-normal  text-red-500">
-          {errors.password}
-        </span> */}
       </div>
 
       <button type="submit" className="btn-primary btn-md" disabled={isLoading}>
