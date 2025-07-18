@@ -12,9 +12,9 @@ const ChallengeCard = ({ title, difficulty, topic, score, successRate }) => {
 
       <div className="flex items-center space-x-4">
         <Star className="w-5 h-5 text-slate-400" fill="currentColor" />
-        <button className="flex items-center space-x-2 px-5 py-2 rounded-md border border-gray-400 text-gray-900 font-medium hover:bg-gray-50 transition">
-          <span>Solved</span>
-          <CheckCircle className="w-5 h-5" />
+        <button className="btn-secondary btn-md">
+          <span>Solve Challenge</span>
+          {/* <CheckCircle className="w-5 h-5" /> */}
         </button>
       </div>
     </div>

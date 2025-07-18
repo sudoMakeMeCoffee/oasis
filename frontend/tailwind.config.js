@@ -151,7 +151,8 @@ module.exports = {
         ".btn-secondary": {
           backgroundColor: "#fff",
           color: "#000",
-          fontWeight: "600",
+          fontWeight: "200",
+          border: "1px solid #aaa",
           display: "inline-flex",
           alignItems: "center", 
           justifyContent: "center",
@@ -159,7 +160,6 @@ module.exports = {
           transition: "background-color 0.2s ease-in-out",
           boxShadow: theme("boxShadow.sm"),
           "&:hover": {
-            backgroundColor: theme("colors.accent"),
             boxShadow: theme("boxShadow.md"),
           },
           "&:disabled": {
