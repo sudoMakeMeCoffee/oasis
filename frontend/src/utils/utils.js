@@ -30,3 +30,8 @@ export function formatTime(timeStr) {
 export function truncateStr(str, maxLength) {
   return str.length > maxLength ? str.slice(0, maxLength) + "..." : str;
 }
+
+export function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}

@@ -135,6 +135,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public boolean checkUsernameExists(String username) {
+
+        User user = userRepository.findByUsername(username).orElse(null);
+        return user != null;
+    }
+
+    @Override
+    public boolean checkEmailExists(String email) {
+        User user = userRepository.findByEmail(email).orElse(null);
+        return user != null;
+    }
+
+    @Override
     public ResponseCookie logout() {
         return ResponseCookie.from("jwt", "").httpOnly(true).secure(false).path("/").maxAge(0).sameSite("Lax").build();
     }

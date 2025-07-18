@@ -43,7 +43,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<UserResponseDto>> signup(@Valid @RequestBody SignUpRequestDto request){
+    public ResponseEntity<ApiResponse<UserResponseDto>> signup(@Valid @RequestBody SignUpRequestDto request) {
         UserResponseDto user = authService.signup(request);
 
         ApiResponse<UserResponseDto> response = new ApiResponse<>(
@@ -56,21 +56,49 @@ public class AuthController {
     }
 
     @PostMapping("/verify-email")
-    public ResponseEntity<ApiResponse<Object>> verifyEmail(@RequestBody VerifyEmailRequestDto requestDto){
+    public ResponseEntity<ApiResponse<Object>> verifyEmail(@RequestBody VerifyEmailRequestDto requestDto) {
         boolean verified = authService.verifyEmail(requestDto.getEmail(), requestDto.getCode());
 
-        if(verified) return new ResponseEntity<>(
+        if (verified) return new ResponseEntity<>(
                 new ApiResponse<>(true, "Email Verified", null),
                 HttpStatus.OK
         );
-        else  return new ResponseEntity<>(
+        else return new ResponseEntity<>(
                 new ApiResponse<>(false, "Your code is invalid.", null),
                 HttpStatus.BAD_REQUEST
         );
     }
 
+    @GetMapping("/username-exists")
+    public ResponseEntity<ApiResponse<Object>> checkUsernameExists(@RequestParam String username) {
+        boolean usernameExists = authService.checkUsernameExists(username);
+
+        if (usernameExists) return new ResponseEntity<>(
+                new ApiResponse<>(true, "Username exits", username),
+                HttpStatus.OK
+        );
+        else return new ResponseEntity<>(
+                new ApiResponse<>(false, "username doesn't exists", null),
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/email-exists")
+    public ResponseEntity<ApiResponse<Object>> checkEmailExists(@RequestParam String email) {
+        boolean usernameExists = authService.checkEmailExists(email);
+
+        if (usernameExists) return new ResponseEntity<>(
+                new ApiResponse<>(true, "Email exits", email),
+                HttpStatus.OK
+        );
+        else return new ResponseEntity<>(
+                new ApiResponse<>(false, "email doesn't exists", null),
+                HttpStatus.OK
+        );
+    }
+
     @PostMapping("/signin")
-    public ResponseEntity<ApiResponse<Object>> signin(@Valid @RequestBody SignInRequestDto request){
+    public ResponseEntity<ApiResponse<Object>> signin(@Valid @RequestBody SignInRequestDto request) {
         SignInResult signInResult = authService.signin(request);
 
         ApiResponse<Object> response = new ApiResponse<>(

@@ -47,37 +47,24 @@ module.exports = {
           alignItems: 'center',
           padding: theme('spacing.md'),
           borderRadius: theme('borderRadius.lg'),
-          border: `1px solid ${theme('colors.secondary')}`,
+          border: `1px solid #aaa`,
           backgroundColor: '#fff',
         },
 
         // 🔹 Reusable password input with icon
-        '.input-password-wrapper': {
-          display: 'flex',
-          alignItems: 'center',
-          padding: theme('spacing.md'),
-          borderRadius: theme('borderRadius.lg'),
-          border: `1px solid ${theme('colors.secondary')}`,
-          backgroundColor: '#fff',
-          gap: theme('spacing.sm'),
-        },
-
         // 🔹 Input field inside wrapper
         '.input-field': {
           flex: '1',
-          border: 'none',
+          border: '1px solid #aaa',
           outline: 'none',
           backgroundColor: 'transparent',
           color: '#000',
           fontSize: theme('fontSize.md')[0],
-        },
-
-        // 🔹 Password icon
-        '.input-password-wrapper svg': {
-          cursor: 'pointer',
-          color: theme('colors.accent'),
-          width: '1.25rem',
-          height: '1.25rem',
+          borderRadius: theme('borderRadius.md'),
+          transition: 'background-color 0.2s ease-in-out',
+          '&:focus': {
+             border: '1px solid #000',
+          },
         },
 
         // 🔹 Primary button base
@@ -112,6 +99,22 @@ module.exports = {
           height: theme('height.md'),
         },
         '.btn-lg': {
+          fontSize: theme('fontSize.lg')[0],
+          padding: `${theme('spacing.md')} ${theme('spacing.xl')}`,
+          height: theme('height.lg'),
+        },
+
+         '.input-sm': {
+          fontSize: theme('fontSize.sm')[0],
+          padding: `${theme('spacing.sm')} ${theme('spacing.md')}`,
+          height: theme('height.sm'),
+        },
+        '.input-md': {
+          fontSize: theme('fontSize.md')[0],
+          padding: `${theme('spacing.sm')} ${theme('spacing.lg')}`,
+          height: theme('height.md'),
+        },
+        '.input-lg': {
           fontSize: theme('fontSize.lg')[0],
           padding: `${theme('spacing.md')} ${theme('spacing.xl')}`,
           height: theme('height.lg'),

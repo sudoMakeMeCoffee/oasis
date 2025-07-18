@@ -38,6 +38,10 @@ public interface AuthService {
 
     public UserResponseDto changePassword(HttpServletRequest request, ChangePasswordRequestDto requestDto) throws Exception;
 
+    public boolean checkUsernameExists(String username);
+
+    public boolean checkEmailExists(String email);
+
     public ResponseCookie logout();
 
 }
