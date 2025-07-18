@@ -20,6 +20,13 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(AccountNotVerifiedException.class)
+    public ResponseEntity<ApiResponse<Object>> accountNotVerifiedExceptionHandler(AccountNotVerifiedException ex){
+        ApiResponse<Object> response = new ApiResponse<>(false, ex.getMessage(), null,"ACCOUNT-NOT-VERIFIED");
+
+        return new ResponseEntity<ApiResponse<Object>>(response, HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<ApiResponse<Object>> invalidPasswordExceptionHandler(InvalidPasswordException ex){
         ApiResponse<Object> response = new ApiResponse<>(false, ex.getMessage(), null);

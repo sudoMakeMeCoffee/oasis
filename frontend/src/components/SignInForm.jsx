@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthStore from "../store/AuthStore";
 import { isValidEmail } from "../utils/utils";
+import { toast } from "react-toastify";
+import { CiWarning } from "react-icons/ci";
 
 const SignInForm = () => {
   const { isAuthenticated, setIsAuthenticated, user, setUser } = useAuthStore();
@@ -10,6 +12,7 @@ const SignInForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -24,6 +27,7 @@ const SignInForm = () => {
   };
 
   useEffect(() => {
+    setErr("");
     const timeout = setTimeout(() => {
       if (email) {
         checkEmail();
@@ -33,6 +37,10 @@ const SignInForm = () => {
     return () => clearTimeout(timeout);
   }, [email]);
 
+  useEffect(() => {
+    setErr("");
+  }, [password]);
+  
   const signIn = async () => {
     try {
       setIsLoading(true);
@@ -51,6 +59,11 @@ const SignInForm = () => {
       setUser(res.data.data);
       navigate("/");
     } catch (error) {
+      if (error.response?.data?.error == "ACCOUNT-NOT-VERIFIED") {
+        toast.info("Verify your email to login");
+        navigate(`/verify-email?q=${email}`);
+      }
+      setErr(error.response?.data?.message);
       console.log(error);
       setIsLoading(false);
     }
@@ -58,7 +71,7 @@ const SignInForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    setErr("");
     checkEmail();
     if (password.length < 1) {
       setErrors((prev) => ({
@@ -77,11 +90,21 @@ const SignInForm = () => {
     >
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-medium">
-          Welcome Back! <br />
+          Welcome ! <br />
         </h1>
         <span className="font-light text-sm">
-          Reconnect with Oasis — where developers thrive.{" "}
+          Connect with Oasis — where developers thrive.{" "}
         </span>
+        {err && (
+          <>
+            <br />
+            <div className="bg-red-200 px-3 py-3 rounded-md">
+              <span className="flex items-center gap-1 text-sm font-light text-red-500">
+                <CiWarning className="text-lg" /> {err}
+              </span>
+            </div>
+          </>
+        )}
       </div>
       <div className="flex flex-col gap-1">
         <input

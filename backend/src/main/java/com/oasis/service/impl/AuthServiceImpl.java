@@ -8,6 +8,7 @@ import com.oasis.dto.response.SignInResult;
 import com.oasis.dto.response.UserResponseDto;
 import com.oasis.entity.User;
 import com.oasis.enums.Role;
+import com.oasis.exception.AccountNotVerifiedException;
 import com.oasis.exception.InvalidPasswordException;
 import com.oasis.exception.UnauthorizedException;
 import com.oasis.repository.UserRepository;
@@ -52,8 +53,12 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean verifyEmail(String email, String code){
 
-
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+
+        if(user.isVerified()){
+            return true;
+        }
 
         if(Objects.equals(code, user.getCode())){
             user.setVerified(true);
@@ -66,29 +71,38 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public boolean sendVerificationEmailCode(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        String code = codeGeneratorUtil.generateSixDigitCode();
+        user.setCode(code);
+        User updatedUser = userRepository.save(user);
+        emailService.sendEmail(updatedUser.getEmail(), "Email verification code", updatedUser.getCode());
+        return true;
+    }
+
+    @Override
     public UserResponseDto signup(SignUpRequestDto requestDto) {
 
         String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
-        String code = codeGeneratorUtil.generateSixDigitCode();
 
-
-        User user = User.builder().username(requestDto.getUsername()).email(requestDto.getEmail()).password(encodedPassword).code(code).role(Role.USER).build();
-
+        User user = User.builder().username(requestDto.getUsername()).email(requestDto.getEmail()).password(encodedPassword).role(Role.USER).build();
 
         User createdUser = userRepository.save(user);
-
-        emailService.sendEmail(createdUser.getEmail(), "Email verification code", code);
-
 
         return UserResponseDto.fromEntity(createdUser);
     }
 
     @Override
-    public SignInResult signin(SignInRequestDto requestDto) {
+    public SignInResult signin(SignInRequestDto requestDto) throws Exception {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestDto.getEmail(), requestDto.getPassword()));
 
         UserDetails userDetails = userService.loadUserByUsername(requestDto.getEmail());
         UserResponseDto user = userService.getUserByUsername(userDetails.getUsername());
+
+        if(!user.isVerified()){
+            throw new AccountNotVerifiedException("Account not verified");
+        }
+
         String token = jwtUtil.generateToken(userDetails);
 
 

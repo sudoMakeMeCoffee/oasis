@@ -55,8 +55,22 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @PostMapping("/send-email-verification-code")
+    public ResponseEntity<ApiResponse<Object>> sendVerificationEmailCode(@RequestParam String email){
+
+        if (authService.sendVerificationEmailCode(email)) return new ResponseEntity<>(
+                new ApiResponse<>(true, "Verification code sent.", null),
+                HttpStatus.OK
+        );
+
+        return new ResponseEntity<>(
+                new ApiResponse<>(false, "Failed to send verification code", null),
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
     @PostMapping("/verify-email")
-    public ResponseEntity<ApiResponse<Object>> verifyEmail(@RequestBody VerifyEmailRequestDto requestDto) {
+    public ResponseEntity<ApiResponse<Object>> verifyEmail(@RequestBody VerifyEmailRequestDto requestDto){
         boolean verified = authService.verifyEmail(requestDto.getEmail(), requestDto.getCode());
 
         if (verified) return new ResponseEntity<>(
@@ -64,7 +78,7 @@ public class AuthController {
                 HttpStatus.OK
         );
         else return new ResponseEntity<>(
-                new ApiResponse<>(false, "Your code is invalid.", null),
+                new ApiResponse<>(false, "Your code is incorrect.", null),
                 HttpStatus.BAD_REQUEST
         );
     }
@@ -98,7 +112,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<ApiResponse<Object>> signin(@Valid @RequestBody SignInRequestDto request) {
+    public ResponseEntity<ApiResponse<Object>> signin(@Valid @RequestBody SignInRequestDto request) throws Exception {
         SignInResult signInResult = authService.signin(request);
 
         ApiResponse<Object> response = new ApiResponse<>(

@@ -30,9 +30,11 @@ public interface AuthService {
 
     public boolean verifyEmail(String email, String code);
 
+    public boolean sendVerificationEmailCode(String email);
+
     public UserResponseDto signup(SignUpRequestDto requestDto);
 
-    public SignInResult signin(SignInRequestDto requestDto);
+    public SignInResult signin(SignInRequestDto requestDto) throws Exception;
 
     public UserResponseDto checkAuth(HttpServletRequest request);
 
