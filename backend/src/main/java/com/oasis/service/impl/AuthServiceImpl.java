@@ -73,6 +73,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean sendVerificationEmailCode(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        if(user.isVerified()) return true;
+        
         String code = codeGeneratorUtil.generateSixDigitCode();
         user.setCode(code);
         User updatedUser = userRepository.save(user);
