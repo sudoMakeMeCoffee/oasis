@@ -32,7 +32,6 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
-
     @Column(nullable = false)
     private String password;
 
@@ -40,6 +39,8 @@ public class User implements UserDetails {
     private Role role;
 
     private String code;
+
+    private Long points;
 
     private boolean verified;
 
