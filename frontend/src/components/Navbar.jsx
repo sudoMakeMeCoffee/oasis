@@ -5,6 +5,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import useAuthStore from "../store/AuthStore";
 import useSideBarStore from "../store/SideBarStore";
 import SideBar from "./SideBar";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { isAuthenticated, setIsAuthenticated, user } = useAuthStore();
@@ -38,6 +39,19 @@ const Navbar = () => {
         <div className="wrapper w-full max-w-8xl h-full flex items-center justify-between">
           <div>
             <Logo className="w-[70px]" />
+          </div>
+
+          <div className="h-full flex gap-3">
+            <div className="h-full flex items-center px-2 justify-center border-b-4 border-primary cursor-pointer">
+              <Link className="text-white text-sm font-semibold">Challenges</Link>
+            </div>
+
+            <div className="h-full flex items-center px-2 justify-center  border-primary cursor-pointer">
+              <Link className="text-white text-sm font-light">Leaderboard</Link>
+            </div>
+            <div className="h-full flex items-center px-2 justify-center  border-primary cursor-pointer">
+              <Link className="text-white text-sm font-light">Progress</Link>
+            </div>
           </div>
 
           <div>
