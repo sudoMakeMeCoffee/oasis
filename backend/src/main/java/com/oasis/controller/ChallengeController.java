@@ -30,5 +30,14 @@ public class ChallengeController {
         );
     }
 
-
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<ChallengeResponseDto>>> getAllChallenges() {
+        List<Challenge> list = challengeService.getAllChallenges();
+        List<ChallengeResponseDto> dtoList = list.stream()
+                .map(ChallengeResponseDto::fromEntity)
+                .toList();
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Challenges fetched successfully", dtoList)
+        );
+    }
 }
