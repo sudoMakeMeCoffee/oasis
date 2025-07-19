@@ -22,32 +22,28 @@ public class ChallengeController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<ChallengeResponseDto>> createChallenge(
-            @Valid @RequestBody CreateChallengeRequestDto dto) {
-        Challenge saved = challengeService.createChallenge(dto);
-        ChallengeResponseDto response = ChallengeResponseDto.fromEntity(saved);
+            @Valid @RequestBody CreateChallengeRequestDto requestDto) {
+        ChallengeResponseDto challenge = challengeService.createChallenge(requestDto);
         return ResponseEntity.ok(
-                new ApiResponse<>(true, "Challenge created successfully", response)
+                new ApiResponse<>(true, "Challenge created successfully", challenge)
         );
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<ChallengeResponseDto>>> getAllChallenges() {
-        List<Challenge> list = challengeService.getAllChallenges();
-        List<ChallengeResponseDto> dtoList = list.stream()
-                .map(ChallengeResponseDto::fromEntity)
-                .toList();
+        List<ChallengeResponseDto> challenges = challengeService.getAllChallenges();
         return ResponseEntity.ok(
-                new ApiResponse<>(true, "Challenges fetched successfully", dtoList)
+                new ApiResponse<>(true, "Challenges fetched successfully", challenges)
         );
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ChallengeResponseDto>> getChallengeById(
             @PathVariable UUID id) {
-        Challenge found = challengeService.getChallengeById(id);
-        ChallengeResponseDto response = ChallengeResponseDto.fromEntity(found);
+        ChallengeResponseDto challenge = challengeService.getChallengeById(id);
+
         return ResponseEntity.ok(
-                new ApiResponse<>(true, "Challenge fetched successfully", response)
+                new ApiResponse<>(true, "Challenge fetched successfully", challenge)
         );
     }
 }

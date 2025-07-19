@@ -1,6 +1,7 @@
 package com.oasis.service;
 
 import com.oasis.dto.request.CreateChallengeRequestDto;
+import com.oasis.dto.response.ChallengeResponseDto;
 import com.oasis.entity.Challenge;
 import com.oasis.repository.ChallengeRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,7 +18,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     private final ChallengeRepository challengeRepository;
 
     @Override
-    public Challenge createChallenge(CreateChallengeRequestDto dto) {
+    public ChallengeResponseDto createChallenge(CreateChallengeRequestDto dto) {
         Challenge challenge = Challenge.builder()
                 .title(dto.getTitle())
                 .description(dto.getDescription())
@@ -26,18 +27,27 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .input(dto.getInput())
                 .output(dto.getOutput())
                 .build();
-        return challengeRepository.save(challenge);
+        Challenge savedChallenge =  challengeRepository.save(challenge);
+
+        return ChallengeResponseDto.fromEntity(savedChallenge);
     }
 
     @Override
-    public Challenge getChallengeById(UUID id) {
-        return challengeRepository.findById(id)
+    public ChallengeResponseDto getChallengeById(UUID id) {
+        Challenge challenge = challengeRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Challenge not found with id: " + id));
+
+        return  ChallengeResponseDto.fromEntity(challenge);
     }
 
     @Override
-    public List<Challenge> getAllChallenges() {
-        return challengeRepository.findAll();
+    public List<ChallengeResponseDto> getAllChallenges() {
+        List<Challenge> challenges = challengeRepository.findAll();
+        List<ChallengeResponseDto> dtoList = challenges.stream()
+                .map(ChallengeResponseDto::fromEntity)
+                .toList();
+
+        return dtoList;
     }
 }
