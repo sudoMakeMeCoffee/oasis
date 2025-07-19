@@ -22,7 +22,6 @@ public class ChallengeServiceImpl implements ChallengeService {
         Challenge challenge = Challenge.builder()
                 .title(dto.getTitle())
                 .description(dto.getDescription())
-                .status(dto.getStatus())
                 .difficulty(dto.getDifficulty())
                 .input(dto.getInput())
                 .output(dto.getOutput())

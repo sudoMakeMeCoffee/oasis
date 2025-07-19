@@ -88,7 +88,7 @@ public class AuthServiceImpl implements AuthService {
 
         String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
 
-        User user = User.builder().username(requestDto.getUsername()).email(requestDto.getEmail()).password(encodedPassword).role(Role.USER).build();
+        User user = User.builder().username(requestDto.getUsername()).email(requestDto.getEmail()).password(encodedPassword).role(Role.ADMIN).build();
 
         User createdUser = userRepository.save(user);
 

@@ -20,9 +20,6 @@ public class CreateChallengeRequestDto {
     @NotBlank(message = "Description is required")
     private String description;
 
-    @NotNull(message = "Status must be provided")
-    private ChallengeStatus status;
-
     @NotNull(message = "Difficulty must be provided")
     private ChallengeDifficulty difficulty;
 

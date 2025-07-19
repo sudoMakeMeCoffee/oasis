@@ -35,7 +35,6 @@ public class ChallengeResponseDto {
                 .id(entity.getId())
                 .title(entity.getTitle())
                 .description(entity.getDescription())
-                .status(entity.getStatus())
                 .difficulty(entity.getDifficulty())
                 .input(entity.getInput())
                 .output(entity.getOutput())

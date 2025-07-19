@@ -16,6 +16,7 @@ import { Bounce, ToastContainer } from "react-toastify";
 import NotFound from "./pages/NotFound";
 import useAuthStore from "./store/AuthStore";
 import VerifyEmail from "./pages/VerfyEmail";
+import Challenge from "./pages/Challenge";
 
 function App() {
   const location = useLocation();
@@ -56,6 +57,11 @@ function App() {
        <Route
           path="/verify-email"
           element={isAuthenticated ? <Navigate to={"/"} /> : <VerifyEmail />}
+        />
+
+        <Route
+          path="/challenge/:id"
+          element={<Challenge />}
         />
 
 

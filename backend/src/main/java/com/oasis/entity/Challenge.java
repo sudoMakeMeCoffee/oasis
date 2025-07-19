@@ -29,9 +29,6 @@ public class Challenge {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private ChallengeStatus status;
-
-    @Enumerated(EnumType.STRING)
     private ChallengeDifficulty difficulty;
 
     private String input;
