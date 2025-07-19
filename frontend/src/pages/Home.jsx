@@ -19,7 +19,7 @@ const Home = () => {
 
   return (
     <div>
-      <Header />
+      <Header title={"All Challenges"} subTitle={"Challenges"}/>
       <div className="wrapper flex flex-col-reverse lg:flex-row gap-5">
         <div className="w-full">{
           challenges.map((challenge, i) => (

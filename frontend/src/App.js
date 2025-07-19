@@ -17,6 +17,7 @@ import NotFound from "./pages/NotFound";
 import useAuthStore from "./store/AuthStore";
 import VerifyEmail from "./pages/VerfyEmail";
 import Challenge from "./pages/Challenge";
+import Leaderboard from "./pages/Leaderboard";
 
 function App() {
   const location = useLocation();
@@ -57,6 +58,11 @@ function App() {
        <Route
           path="/verify-email"
           element={isAuthenticated ? <Navigate to={"/"} /> : <VerifyEmail />}
+        />
+
+        <Route
+          path="/leaderboard"
+          element={<Leaderboard />}
         />
 
         <Route

@@ -31,6 +31,7 @@ public class ChallengeResponseDto {
         if (entity == null) {
             return null;
         }
+        System.out.println();
         return ChallengeResponseDto.builder()
                 .id(entity.getId())
                 .title(entity.getTitle())
