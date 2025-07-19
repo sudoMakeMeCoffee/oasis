@@ -1,11 +1,12 @@
-import React from 'react'
+import React from "react";
+import ReactMarkdown from "react-markdown";
 
-const ChallengeDescBox = () => {
+const ChallengeDescBox = ({ challenge }) => {
   return (
-    <div>
-      
+    <div className="w-full">
+      <ReactMarkdown>{challenge?.description}</ReactMarkdown>
     </div>
-  )
-}
+  );
+};
 
-export default ChallengeDescBox
+export default ChallengeDescBox;
