@@ -2,47 +2,59 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Welcome Email</title>
-    <style>
-        body {
-          font-family: Arial, sans-serif;
-          color: #333;
-          line-height: 1.6;
-          background-color: #f9f9f9;
-          padding: 20px;
-        }
-        .container {
-          max-width: 600px;
-          margin: auto;
-          background-color: #ffffff;
-          padding: 30px;
-          border-radius: 8px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-        }
-        .btn {
-          display: inline-block;
-          padding: 10px 20px;
-          margin-top: 20px;
-          background-color: #4CAF50;
-          color: white;
-          text-decoration: none;
-          border-radius: 5px;
-        }
-        .footer {
-          margin-top: 40px;
-          font-size: 12px;
-          color: #999;
-          text-align: center;
-        }
-    </style>
+    <title>Email Verification Code</title>
 </head>
-<body>
-<div class="container">
-    <h2>Welcome to Hackathon Hub Platform</span>!</h2>
+<body style="margin:0; padding:0; font-family: Arial, sans-serif; background-color:#f3f4f6;">
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td align="center" style="padding: 40px 0;">
+            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" style="background: #ffffff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden;">
 
+                <!-- Header -->
+                <tr>
+                    <td style="padding: 30px; text-align: center; background-color: #1f2937;">
+                        <img src="https://via.placeholder.com/150x50?text=Oasis" alt="Oasis Logo" style="max-width: 100%; height: auto;" />
+                    </td>
+                </tr>
 
-    <p><strong>Code:</strong> <span th:text="${code}"></span></p>
+                <!-- Main Content -->
+                <tr>
+                    <td style="padding: 30px 40px 20px 40px;">
+                        <h2 style="color: #111827; margin: 0 0 10px;">Welcome to Oasis 🌿</h2>
+                        <p style="font-size: 16px; color: #4b5563; margin: 0;">
+                            We're excited to have you onboard! To activate your account, please use the verification code below:
+                        </p>
 
-</div>
+                        <div style="margin: 30px 0; text-align: center;">
+                            <span style="display: inline-block; padding: 14px 28px; font-size: 22px; font-weight: bold; color: #1f2937; background-color: #e5e7eb; border-radius: 8px;" th:text="${code}"></span>
+                        </div>
+
+                        <p style="font-size: 14px; color: #6b7280; margin-top: 10px;">
+                            This code will expire in 10 minutes. If you didn’t request this, you can safely ignore this email.
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- CTA Button -->
+                <tr>
+                    <td style="padding: 20px 40px; text-align: center;">
+                        <a href="#" style="display: inline-block; background-color: #10b981; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: 500;">
+                            Visit Oasis
+                        </a>
+                    </td>
+                </tr>
+
+                <!-- Footer -->
+                <tr>
+                    <td style="padding: 30px 40px; font-size: 12px; color: #9ca3af; text-align: center; background-color: #f9fafb;">
+                        &copy; 2025 Oasis. All rights reserved.<br/>
+                        Need help? Contact us at <a href="mailto:support@oasis.com" style="color: #3b82f6;">support@oasis.com</a>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

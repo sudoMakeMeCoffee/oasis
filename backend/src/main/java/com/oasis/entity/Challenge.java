@@ -1,15 +1,12 @@
 package com.oasis.entity;
 
 import com.oasis.enums.ChallengeDifficulty;
-import com.oasis.enums.ChallengeStatus;
-import com.oasis.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Enumeration;
 import java.util.UUID;
 
 @Entity

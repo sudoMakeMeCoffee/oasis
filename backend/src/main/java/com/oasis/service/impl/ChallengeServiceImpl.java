@@ -43,10 +43,9 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Override
     public List<ChallengeResponseDto> getAllChallenges() {
         List<Challenge> challenges = challengeRepository.findAll();
-        List<ChallengeResponseDto> dtoList = challenges.stream()
+
+        return challenges.stream()
                 .map(ChallengeResponseDto::fromEntity)
                 .toList();
-
-        return dtoList;
     }
 }
