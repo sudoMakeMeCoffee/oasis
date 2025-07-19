@@ -20,10 +20,18 @@ const defaultCode = {
   java: `public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}`,
 };
 
-const Editor = () => {
+const languageMap = {
+  javascript: { name: "javascript", version: "18.15.0" },
+  python: { name: "python", version: "3.10.0" },
+  cpp: { name: "cpp", version: "10.2.0" },
+  java: { name: "java", version: "15.0.2" },
+};
+
+const Editor = ({challenge}) => {
   const [language, setLanguage] = useState("python");
   const [code, setCode] = useState(defaultCode[language]);
-  const [output, setOutput] = useState(""); // store output from API
+  const [output, setOutput] = useState("");
+  const [correctOutput, setCorrectOutput] = useState("")
   const [isRunning, setIsRunning] = useState(false);
 
   const handleLanguageChange = (e) => {
@@ -34,34 +42,52 @@ const Editor = () => {
   };
 
   const runCode = async () => {
-    const languageMap = {
-      python: { name: "python", version: "3.10.0" },
-      javascript: { name: "javascript", version: "18.15.0" },
-      cpp: { name: "cpp", version: "10.2.0" },
-      java: { name: "java", version: "15.0.2" },
-    };
+    setIsRunning(true);
+    setOutput("");
 
     const { name, version } = languageMap[language];
-    const response = await fetch("https://emkc.org/api/v2/piston/execute", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        language: "python",
-        version: "3.10.0",
-        files: [
-          {
-            content: code,
-          },
-        ],
-      }),
-    });
 
-    const result = await response.json();
-    console.log("✅ Output:", result.run.output);
-    setOutput(result.run.output)
+    try {
+      const response = await fetch("https://emkc.org/api/v2/piston/execute", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          language: name,
+          version: version,
+          files: [
+            {
+              content: code,
+            },
+          ],
+        }),
+      });
+
+      const result = await response.json();
+
+      const error = result.run?.stderr?.trim();
+      const success = result.run?.stdout?.trim();
+
+
+      console.log(result)
+
+      if (error) {
+        setOutput(`${error}`);
+      } else {
+        setOutput(`${success || "No output"}`);
+      }
+    } catch (err) {
+      setOutput(`❌ Error: ${err.message}`);
+    }
+
+    setIsRunning(false);
   };
+
+  const submitCode = () => {
+    console.log(output)
+    console.log(challenge.output)
+  }
 
   return (
     <div className="h-full w-full flex flex-col gap-2">
@@ -105,11 +131,12 @@ const Editor = () => {
         >
           {isRunning ? "Running..." : "Run Code"}
         </button>
-        <button className="btn-secondary btn-md">Submit Code</button>
+        <button className="btn-secondary btn-md" onClick={submitCode}>Submit Code</button>
       </div>
 
-      <div className="mt-4 p-4 bg-gray-900 text-green-400 rounded-lg whitespace-pre-wrap min-h-[100px]">
-        <strong>Output:</strong>
+      <div className="mt-4 p-4 bg-gray-900 text-primary rounded-lg whitespace-pre-wrap min-h-[100px] overflow-x-scroll overflow-y-scroll max-h-[200px]">
+        <h1 className="border-b-4 border-blue-900 text-white text-sm font-light max-w-max px-2 cursor-pointer">Console</h1>
+        <br />
         <pre>{output}</pre>
       </div>
     </div>

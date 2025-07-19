@@ -47,7 +47,7 @@ const Challenge = () => {
 
         {/* Right: Code Editor Placeholder */}
         <div className="p-4 bg-gray-100">
-          <Editor/>
+          <Editor challenge={challenge} />
         </div>
       </Split>
     </div>
