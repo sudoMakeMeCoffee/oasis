@@ -29,7 +29,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String path = request.getRequestURI();
+
+        // Skip filter for public endpoints like auth
+        if (path.startsWith("/api/v1/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String jwt = null;
 
         String authHeader = request.getHeader("Authorization");
@@ -47,22 +57,25 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         if (jwt != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            String email = jwtUtil.extractEmail(jwt);
-            UserDetails userDetails = userService.loadUserByUsername(email);
-            UserResponseDto user = userService.getUserByUsername(userDetails.getUsername());
+            try {
+                String email = jwtUtil.extractEmail(jwt);
+                UserDetails userDetails = userService.loadUserByUsername(email);
+                UserResponseDto user = userService.getUserByUsername(userDetails.getUsername());
 
-
-            if (jwtUtil.validateToken(jwt, user)) {
-
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities()
-                );
-
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                if (jwtUtil.validateToken(jwt, user)) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities()
+                    );
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+            } catch (Exception e) {
+                // Optional: Log expired token or ignore silently to avoid throwing during login
+                System.out.println("JWT validation error: " + e.getMessage());
             }
         }
 
         filterChain.doFilter(request, response);
     }
+
 }

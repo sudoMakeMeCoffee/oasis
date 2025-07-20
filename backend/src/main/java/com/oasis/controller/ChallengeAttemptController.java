@@ -1,7 +1,6 @@
 package com.oasis.controller;
 
 import com.oasis.dto.request.ChallengeAttemptRequestDto;
-import com.oasis.dto.response.ChallengeAttemptResponseDto;
 import com.oasis.entity.ChallengeAttempt;
 import com.oasis.service.ChallengeAttemptService;
 import org.springframework.validation.annotation.Validated;

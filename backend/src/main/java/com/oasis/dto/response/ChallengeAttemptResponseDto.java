@@ -15,7 +15,8 @@ public class ChallengeAttemptResponseDto {
     private UUID id;
     private UUID challengeId;
     private UUID userId;
-    private long attempts;
+    private int attempts;
+    private boolean solved;
     private long points;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -26,6 +27,7 @@ public class ChallengeAttemptResponseDto {
                 .challengeId(entity.getChallenge().getId())
                 .userId(entity.getUser().getId())
                 .attempts(entity.getAttempts())
+                .solved(entity.isSolved())
                 .points(entity.getPoints())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())

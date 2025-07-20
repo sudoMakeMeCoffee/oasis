@@ -27,7 +27,9 @@
         @JoinColumn(name = "user_id", nullable = false)
         private User user;
 
-        private Long attempts;
+        private int attempts;
+
+        private boolean solved;
 
         private long points;
 

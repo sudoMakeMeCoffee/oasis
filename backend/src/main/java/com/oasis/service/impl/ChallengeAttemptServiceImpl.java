@@ -12,6 +12,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class ChallengeAttemptServiceImpl implements ChallengeAttemptService {
 
@@ -31,16 +33,29 @@ public class ChallengeAttemptServiceImpl implements ChallengeAttemptService {
 
         User user = userRepository.findById(requestDto.getUserId()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         Challenge challenge = challengeRepository.findById(requestDto.getChallengeId()).orElseThrow(() -> new EntityNotFoundException("Challenge not found"));
-        ChallengeAttempt attempt = new ChallengeAttempt(
-                null,
-                challenge,
-                user,
-                requestDto.getAttempts() + 1,
-                requestDto.getPoints(),
-                null,
-                null
-        );
-
+        ChallengeAttempt attempt = ChallengeAttempt.builder()
+                .challenge(challenge)
+                .user(user)
+                .build();
         return challengeAttemptRepository.save(attempt);
     }
+
+    public ChallengeAttempt runCode(UUID userId, UUID challengeId) {
+        ChallengeAttempt attempt = getOrCreateChallengeAttempt(userId, challengeId);
+        attempt.setAttempts(attempt.getAttempts() + 1);
+        challengeAttemptRepository.save(attempt);
+        return attempt;
+    }
+
+    private ChallengeAttempt getOrCreateChallengeAttempt(UUID userId, UUID challengeId) {
+        return challengeAttemptRepository.findByUserIdAndChallengeId(userId, challengeId)
+                .orElse(ChallengeAttempt.builder()
+                        .user(userRepository.getReferenceById(userId))
+                        .challenge(challengeRepository.getReferenceById(challengeId))
+                        .attempts(0)
+                        .points(0)
+                        .solved(false)
+                        .build());
+    }
+
 }
