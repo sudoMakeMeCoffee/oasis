@@ -1,12 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { APIURL } from "../utils/conts";
 import { useParams } from "react-router-dom";
 import ChallengeDescBox from "../components/ChallengeDescBox";
 import Header from "../components/Header";
 
 import Split from "react-split";
-import ReactMarkdown from "react-markdown";
 import "tailwindcss/tailwind.css";
 import Editor from "../components/Editor";
 

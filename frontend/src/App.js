@@ -2,40 +2,45 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
   useLocation,
 } from "react-router-dom";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import "./App.css";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Navbar from "./components/Navbar";
-import { Bounce, ToastContainer } from "react-toastify";
-import NotFound from "./pages/NotFound";
-import useAuthStore from "./store/AuthStore";
 import VerifyEmail from "./pages/VerfyEmail";
 import Challenge from "./pages/Challenge";
 import Leaderboard from "./pages/Leaderboard";
+import NotFound from "./pages/NotFound";
+import Navbar from "./components/Navbar";
+import { ToastContainer, Bounce } from "react-toastify";
+import "./App.css";
+import { useEffect } from "react";
+import axios from "axios";
+import useAuthStore from "./store/AuthStore";
+import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
 
 function App() {
   const location = useLocation();
-  const { isAuthenticated, setIsAuthenticated, user, setUser } = useAuthStore();
+  const { isAuthenticated, setIsAuthenticated, user, setUser, setAuthLoading } = useAuthStore();
 
   useEffect(() => {
     axios
-      .post("http://localhost:8080/api/v1/auth/check-auth",{}, {
-        withCredentials: true,
-      })
+      .post(
+        "http://localhost:8080/api/v1/auth/check-auth",
+        {},
+        { withCredentials: true }
+      )
       .then((res) => {
-        // ✅ Authenticated
         setUser(res.data.data);
         setIsAuthenticated(true);
       })
-      .catch((err) => {
+      .catch(() => {
         setUser(null);
         setIsAuthenticated(false);
+      })
+      .finally(() => {
+        setAuthLoading(false); // ✅ set loading false after check
       });
   }, []);
 
@@ -46,35 +51,56 @@ function App() {
     <>
       {!hideNavbar && <Navbar />}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/signup"
-          element={isAuthenticated ? <Navigate to={"/"} /> : <SignUp />}
+          element={
+            <PublicRoute>
+              <SignUp />
+            </PublicRoute>
+          }
         />
         <Route
           path="/signin"
-          element={isAuthenticated ? <Navigate to={"/"} /> : <SignIn />}
+          element={
+            <PublicRoute>
+              <SignIn />
+            </PublicRoute>
+          }
         />
-       <Route
+        <Route
           path="/verify-email"
-          element={isAuthenticated ? <Navigate to={"/"} /> : <VerifyEmail />}
+          element={
+            <PublicRoute>
+              <VerifyEmail />
+            </PublicRoute>
+          }
         />
-
         <Route
           path="/leaderboard"
-          element={<Leaderboard />}
+          element={
+            <PrivateRoute>
+              <Leaderboard />
+            </PrivateRoute>
+          }
         />
-
         <Route
           path="/challenge/:id"
-          element={<Challenge />}
+          element={
+            <PrivateRoute>
+              <Challenge />
+            </PrivateRoute>
+          }
         />
-
-
-
         <Route path="*" element={<NotFound />} />
       </Routes>
-
 
       <ToastContainer
         position="top-center"
@@ -82,15 +108,12 @@ function App() {
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
-        rtl={false}
         pauseOnFocusLoss
         draggable
         pauseOnHover
         theme="colored"
         transition={Bounce}
       />
-
-      
     </>
   );
 }

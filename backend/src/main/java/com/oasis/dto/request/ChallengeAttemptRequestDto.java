@@ -12,5 +12,6 @@ import java.util.UUID;
 public class ChallengeAttemptRequestDto {
     private UUID challengeId;
     private UUID userId;
+    private long attempts;
     private long points;
 }

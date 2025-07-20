@@ -35,6 +35,7 @@ public class ChallengeAttemptServiceImpl implements ChallengeAttemptService {
                 null,
                 challenge,
                 user,
+                requestDto.getAttempts() + 1,
                 requestDto.getPoints(),
                 null,
                 null

@@ -47,9 +47,9 @@ const SideBar = () => {
             Profile
           </Link>
           <hr />
-          <Link className="hover:font-semibold">Leaderboard</Link>
+          <Link className="hover:font-semibold" to={"/leaderboard"}>Leaderboard</Link>
           <hr />
-          <Link className="hover:font-semibold">Settings</Link>
+          <Link className="hover:font-semibold" to={"/settings"}>Settings</Link>
           <hr />
           <Link className="hover:font-semibold">Logout</Link>
         </div>
